@@ -1,0 +1,41 @@
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/!svn/ver/106/trunk/bazinga/trunk/lib
+END
+libSimpleOpenNI.jnilib
+K 25
+svn:wc:ra_dav:version-url
+V 63
+/svn/!svn/ver/98/trunk/bazinga/trunk/lib/libSimpleOpenNI.jnilib
+END
+SimpleOpenNI.jar
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/98/trunk/bazinga/trunk/lib/SimpleOpenNI.jar
+END
+core.jar
+K 25
+svn:wc:ra_dav:version-url
+V 49
+/svn/!svn/ver/98/trunk/bazinga/trunk/lib/core.jar
+END
+SimpleOpenNI.dll
+K 25
+svn:wc:ra_dav:version-url
+V 57
+/svn/!svn/ver/98/trunk/bazinga/trunk/lib/SimpleOpenNI.dll
+END
+libSimpleOpenNI.so
+K 25
+svn:wc:ra_dav:version-url
+V 59
+/svn/!svn/ver/98/trunk/bazinga/trunk/lib/libSimpleOpenNI.so
+END
+log4j-1.2.16.jar
+K 25
+svn:wc:ra_dav:version-url
+V 58
+/svn/!svn/ver/106/trunk/bazinga/trunk/lib/log4j-1.2.16.jar
+END
