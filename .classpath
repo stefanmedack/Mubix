@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/peasycam.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleOpenNI.jar"/>
 	<classpathentry kind="lib" path="lib/core.jar"/>
+	<classpathentry kind="lib" path="lib/sphinx4.jar"/>
+	<classpathentry kind="lib" path="lib/WSJ_8gau_13dCep_16k_40mel_130Hz_6800Hz.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -1,5 +1,6 @@
 package de.tub.mubix.main;
 
+import de.tub.mubix.speechControl.SpeechControl;
 import peasy.PeasyCam;
 import processing.core.PApplet;
 import SimpleOpenNI.SimpleOpenNI;
@@ -76,6 +77,15 @@ public class Mubix extends PApplet {
 
 		// bkg_img = loadImage("cube_black_1024_640.jpg");
 		// bkg_img.filter(OPAQUE);
+		
+		/************************************************************
+		 ********************* Speech Control Stuff
+		 ************************************************************/
+		
+		SpeechControl speechCtrl = new SpeechControl();
+		speechCtrl.setCube(this.theCube);
+		Thread thread = new Thread(speechCtrl);
+		thread.start();
 	}
 
 	@Override
