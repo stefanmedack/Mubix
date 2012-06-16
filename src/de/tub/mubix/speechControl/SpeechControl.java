@@ -12,7 +12,7 @@
 
 package de.tub.mubix.speechControl;
 
-import de.tub.mubix.main.Cube;
+import de.tub.mubix.main.Cube; 
 import edu.cmu.sphinx.frontend.util.Microphone;
 import edu.cmu.sphinx.recognizer.Recognizer;
 import edu.cmu.sphinx.result.Result;

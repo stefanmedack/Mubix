@@ -11,6 +11,13 @@ public class Cube {
 
 	public int clock = 0;
 	public int faceTurn = 0;
+	
+	public boolean mixCube = false;
+	
+	int numOfSiteRotation = 0;
+	int rand1 = 0;
+	int rand2 = 0;
+	int rand3 = 0;
 
 	PVector[][][] squareMatrix;
 	public int[][] colorTable = { { 255, 0, 0 }, { 255, 127, 0 },
@@ -251,13 +258,97 @@ public class Cube {
 		// break;
 		// }
 	}
+	
+	public static int myRandom(double low, double high) {  
+	    return (int) (Math.random() * (high - low) + low);  
+	}
+	
+	public void mixingCube(){	
+		if(rand1 == 0){
+			rand1 = myRandom(1, 4);
+			rand2 = myRandom(1, 4);
+			rand3 = myRandom(1, 4);
+		}
+		
+		if(numOfSiteRotation == 0 && clock < (90 / DEG)){
+			X_AxisRotation(rand1, rand2, rand3);
+		}
+		
+		if(numOfSiteRotation == 1 && clock < (90 / DEG)){
+			Y_AxisRotation(rand1, rand2, rand3);
+		}
+		
+		if(numOfSiteRotation == 2 && clock < (90 / DEG)){
+			Z_AxisRotation(rand1, rand2, rand3);
+		}
+				
+		if(clock == (90 / DEG)){
+			numOfSiteRotation++;
+			rand1 = 0;
+			rand2 = 0;
+			rand3 = 0;
+			if(numOfSiteRotation == 3){
+				mixCube = false;
+				numOfSiteRotation = 0;
+			}
+		}
+	}
+	
+	public void X_AxisRotation(int rand1, int rand2, int rand3){
+		if (clock < (90 / DEG)) {
+			if (mixCube == true){
+				verticalLeftTwist(rand1);
+					
+				leftTwist(-rand2);
+				rightTwist(-rand2);
+				rotateCube(1, rand2);
+					
+				rightTwist(rand3);
+			}
+		}
+	}
+	
+	public void Y_AxisRotation(int rand1, int rand2, int rand3){
+		if (clock < (90 / DEG)) {
+			if (mixCube == true){
+				upTwist(-rand1);
+					
+				upTwist(rand2);
+				bottomTwist(rand2);
+				rotateCube(2, -rand2);
+				
+				bottomTwist(-rand3);
+				
+				clock++;
+			}
+		}
+	}
+	
+	public void Z_AxisRotation(int rand1, int rand2, int rand3){
+		if (clock < (90 / DEG)) {
+			if (mixCube == true){
+				backTwist(-rand1);
+					
+				backTwist(-rand2);
+				frontTwist(-rand2);
+				
+				frontTwist(rand3);
+				
+				clock++;
+			}
+		}
+	}
+	
+	public void verticalLeftTwist(int numOfTwists){
+		leftTwist(numOfTwists);
+		clock++;
+	}
 
 	public void singleTwist() {
 		if (clock < (90 / DEG)) {
 			switch (faceTurn) {
 			case 11:
-				leftTwist(1);
-				clock++;
+				verticalLeftTwist(1);
 				break;
 			case 12:
 				leftTwist(-1);

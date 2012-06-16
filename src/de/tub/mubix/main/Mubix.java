@@ -108,8 +108,12 @@ public class Mubix extends PApplet {
 		rotateX(-0.4f);
 		rotateY(0.4f);
 		theCube.display();
-
+		
+		theCube.mixingCube();
 		theCube.singleTwist();
+		
+
+		
 		// image(bkg_img,-width/2, -height/2);
 		// println(frameRate);
 	}
@@ -215,7 +219,7 @@ public class Mubix extends PApplet {
 	// -----------------------------------------------------------------
 	// Cube Stuff
 	// -----------------------------------------------------------------
-
+	
 	@Override
 	public void keyPressed() {
 		if (theCube.clock == 0) {
@@ -275,6 +279,9 @@ public class Mubix extends PApplet {
 			}
 			if ((key == 'o') || (key == 'O')) {
 				theCube.faceTurn = 92;
+			}
+			if ((key == 'n') || (key == 'N')) {
+				theCube.mixCube = true;
 			}
 			if (key == CODED) {
 				if (keyCode == UP) {
