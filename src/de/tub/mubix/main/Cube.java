@@ -283,27 +283,37 @@ public class Cube {
 		}
 				
 		if(clock == (90 / DEG)){
-			numOfSiteRotation++;
-			rand1 = 0;
-			rand2 = 0;
-			rand3 = 0;
+			updateTwistSettings();
 			if(numOfSiteRotation == 3){
-				mixCube = false;
-				numOfSiteRotation = 0;
+				resetTwistSettings();
 			}
 		}
+	}
+	
+	private void updateTwistSettings(){
+		numOfSiteRotation++;
+		rand1 = 0;
+		rand2 = 0;
+		rand3 = 0;
+	}
+	
+	private void resetTwistSettings(){
+		mixCube = false;
+		numOfSiteRotation = 0;
 	}
 	
 	public void X_AxisRotation(int rand1, int rand2, int rand3){
 		if (clock < (90 / DEG)) {
 			if (mixCube == true){
-				verticalLeftTwist(rand1);
+				leftTwist(rand1);
 					
 				leftTwist(-rand2);
 				rightTwist(-rand2);
 				rotateCube(1, rand2);
 					
 				rightTwist(rand3);
+				
+				clock++;
 			}
 		}
 	}
@@ -338,17 +348,13 @@ public class Cube {
 			}
 		}
 	}
-	
-	public void verticalLeftTwist(int numOfTwists){
-		leftTwist(numOfTwists);
-		clock++;
-	}
 
 	public void singleTwist() {
 		if (clock < (90 / DEG)) {
 			switch (faceTurn) {
 			case 11:
-				verticalLeftTwist(1);
+				leftTwist(1);
+				clock++;
 				break;
 			case 12:
 				leftTwist(-1);

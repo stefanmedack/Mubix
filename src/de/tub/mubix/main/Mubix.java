@@ -110,10 +110,9 @@ public class Mubix extends PApplet {
 		theCube.display();
 		
 		theCube.mixingCube();
+		
 		theCube.singleTwist();
-		
-
-		
+	
 		// image(bkg_img,-width/2, -height/2);
 		// println(frameRate);
 	}
