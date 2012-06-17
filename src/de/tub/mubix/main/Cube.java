@@ -8,11 +8,15 @@ public class Cube {
 
 	final int LENGTH = 60; // size of cube
 	final int DEG = 3; // rotation speed (degrees per frame)
+	
+	private final int frontTwist = 1;
+	private final int backTwist = -1;
 
 	public int clock = 0;
 	public int faceTurn = 0;
 	
 	public boolean mixCube = false;
+	public boolean reverseRotation = false;
 	
 	int numOfSiteRotation = 0;
 	int rand1 = 0;
@@ -271,15 +275,15 @@ public class Cube {
 		}
 		
 		if(numOfSiteRotation == 0 && clock < (90 / DEG)){
-			X_AxisRotation(rand1, rand2, rand3);
+			X_AxisRotation();
 		}
 		
 		if(numOfSiteRotation == 1 && clock < (90 / DEG)){
-			Y_AxisRotation(rand1, rand2, rand3);
+			Y_AxisRotation();
 		}
 		
 		if(numOfSiteRotation == 2 && clock < (90 / DEG)){
-			Z_AxisRotation(rand1, rand2, rand3);
+			Z_AxisRotation();
 		}
 				
 		if(clock == (90 / DEG)){
@@ -292,6 +296,7 @@ public class Cube {
 	
 	private void updateTwistSettings(){
 		numOfSiteRotation++;
+		reverseRotation = false;
 		rand1 = 0;
 		rand2 = 0;
 		rand3 = 0;
@@ -302,9 +307,9 @@ public class Cube {
 		numOfSiteRotation = 0;
 	}
 	
-	public void X_AxisRotation(int rand1, int rand2, int rand3){
+	public void X_AxisRotation(){
 		if (clock < (90 / DEG)) {
-			if (mixCube == true){
+			if (mixCube == true){			
 				leftTwist(rand1);
 					
 				leftTwist(-rand2);
@@ -318,7 +323,7 @@ public class Cube {
 		}
 	}
 	
-	public void Y_AxisRotation(int rand1, int rand2, int rand3){
+	public void Y_AxisRotation(){
 		if (clock < (90 / DEG)) {
 			if (mixCube == true){
 				upTwist(-rand1);
@@ -334,7 +339,7 @@ public class Cube {
 		}
 	}
 	
-	public void Z_AxisRotation(int rand1, int rand2, int rand3){
+	public void Z_AxisRotation(){
 		if (clock < (90 / DEG)) {
 			if (mixCube == true){
 				backTwist(-rand1);
@@ -350,104 +355,145 @@ public class Cube {
 	}
 
 	public void singleTwist() {
-		if (clock < (90 / DEG)) {
+		if (clock < (90 / DEG)) {	
 			switch (faceTurn) {
 			case 11:
-				leftTwist(1);
+				if(reverseRotation == false){
+					leftTwist(frontTwist);
+				}else{
+					leftTwist(backTwist);
+				}
 				clock++;
 				break;
 			case 12:
-				leftTwist(-1);
+				leftTwist(backTwist);
 				clock++;
 				break;
 			case 21:
-				leftTwist(-1);
-				rightTwist(-1);
-				rotateCube(1, 1);
+				if(reverseRotation == false){
+					leftTwist(backTwist);
+					rightTwist(backTwist);
+					rotateCube(1, frontTwist);
+				}else{
+					leftTwist(frontTwist);
+					rightTwist(frontTwist);
+					rotateCube(1, backTwist);
+				}
 				clock++;
 				break;
 			case 22:
-				leftTwist(1);
-				rightTwist(1);
-				rotateCube(1, -1);
+				leftTwist(frontTwist);
+				rightTwist(frontTwist);
+				rotateCube(1, backTwist);
 				clock++;
 				break;
 			case 31:
-				rightTwist(1);
+				if(reverseRotation == false){
+					rightTwist(frontTwist);
+				}else{
+					rightTwist(backTwist);
+				}
 				clock++;
 				break;
 			case 32:
-				rightTwist(-1);
+				rightTwist(backTwist);
 				clock++;
 				break;
 			case 41:
-				upTwist(-1);
+				if(reverseRotation == false){
+					upTwist(backTwist);
+				}else{
+					upTwist(frontTwist);
+				}
 				clock++;
 				break;
 			case 42:
-				upTwist(1);
+				upTwist(frontTwist);
 				clock++;
 				break;
 			case 51:
-				upTwist(1);
-				bottomTwist(1);
-				rotateCube(2, -1);
+				if(reverseRotation == false){
+					upTwist(frontTwist);
+					bottomTwist(frontTwist);
+					rotateCube(2, backTwist);
+				}else{
+					upTwist(backTwist);
+					bottomTwist(backTwist);
+					rotateCube(2, frontTwist);
+				}
 				clock++;
 				break;
 			case 52:
-				upTwist(-1);
-				bottomTwist(-1);
-				rotateCube(2, 1);
+				upTwist(backTwist);
+				bottomTwist(backTwist);
+				rotateCube(2, frontTwist);
 				clock++;
 				break;
 			case 61:
-				bottomTwist(-1);
+				if(reverseRotation == false){
+					bottomTwist(backTwist);
+				}else{
+					bottomTwist(frontTwist);
+				}
 				clock++;
 				break;
 			case 62:
-				bottomTwist(1);
+				bottomTwist(frontTwist);
 				clock++;
 				break;
 			case 71:
-				backTwist(1);
+				if(reverseRotation == false){
+					backTwist(frontTwist);
+				}else{
+					backTwist(backTwist);
+				}
 				clock++;
 				break;
 			case 72:
-				backTwist(-1);
+				backTwist(backTwist);
 				clock++;
 				break;
 			case 81:
-				backTwist(-1);
-				frontTwist(-1);
+				if(reverseRotation == false){
+					backTwist(backTwist);
+					frontTwist(backTwist);
+				}else{
+					backTwist(frontTwist);
+					frontTwist(frontTwist);
+				}
 				clock++;
 				break;
 			case 82:
-				backTwist(1);
-				frontTwist(1);
+				backTwist(frontTwist);
+				frontTwist(frontTwist);
 				clock++;
 				break;
 			case 91:
-				frontTwist(1);
+				if(reverseRotation == false){
+					frontTwist(frontTwist);
+				}else{
+					frontTwist(backTwist);
+				}
 				clock++;
 				break;
 			case 92:
-				frontTwist(-1);
+				frontTwist(backTwist);
 				clock++;
 				break;
 			case 101:
-				rotateCube(1, 1);
+				rotateCube(1, frontTwist);
 				clock++;
 				break;
 			case 102:
-				rotateCube(1, -1);
+				rotateCube(1, backTwist);
 				clock++;
 				break;
 			case 103:
-				rotateCube(2, 1);
+				rotateCube(2, frontTwist);
 				clock++;
 				break;
 			case 104:
-				rotateCube(2, -1);
+				rotateCube(2, backTwist);
 				clock++;
 				break;
 			}

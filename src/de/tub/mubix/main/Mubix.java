@@ -1,5 +1,7 @@
 package de.tub.mubix.main;
 
+import java.util.LinkedList;
+
 import de.tub.mubix.speechControl.SpeechControl;
 import peasy.PeasyCam;
 import processing.core.PApplet;
@@ -14,6 +16,8 @@ public class Mubix extends PApplet {
 	final int WINDOWX = 1024;
 	final int WINDOWY = 640;
 	final boolean enableOpenNI = false;
+	
+	private LinkedList<Integer> moveList = null;
 
 	// int clock = 0;
 	// int ith = 0;
@@ -74,6 +78,8 @@ public class Mubix extends PApplet {
 		cam.setMaximumDistance(600);
 		cam.setActive(false); // deactivate mouse rotation
 		theCube = new Cube(this);
+		
+		moveList = new LinkedList<Integer>();
 
 		// bkg_img = loadImage("cube_black_1024_640.jpg");
 		// bkg_img.filter(OPAQUE);
@@ -112,7 +118,7 @@ public class Mubix extends PApplet {
 		theCube.mixingCube();
 		
 		theCube.singleTwist();
-	
+		
 		// image(bkg_img,-width/2, -height/2);
 		// println(frameRate);
 	}
@@ -224,33 +230,39 @@ public class Mubix extends PApplet {
 		if (theCube.clock == 0) {
 			if (key == '1') {
 				theCube.faceTurn = 11;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '2') {
 				theCube.faceTurn = 21;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '3') {
 				theCube.faceTurn = 31;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '4') {
 				theCube.faceTurn = 41;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '5') {
 				theCube.faceTurn = 51;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '6') {
 				theCube.faceTurn = 61;
-			}
-			if (key == '6') {
-				theCube.faceTurn = 61;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '7') {
 				theCube.faceTurn = 71;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '8') {
 				theCube.faceTurn = 81;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if (key == '9') {
 				theCube.faceTurn = 91;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'q') || (key == 'Q')) {
 				theCube.faceTurn = 12;
@@ -282,6 +294,13 @@ public class Mubix extends PApplet {
 			if ((key == 'n') || (key == 'N')) {
 				theCube.mixCube = true;
 			}
+			if ((key == 'ö') || (key == 'Ö')) {
+				if(!moveList.isEmpty()){
+					theCube.reverseRotation = true;
+					theCube.faceTurn = moveList.getLast();
+					moveList.removeLast();
+				}
+			}
 			if (key == CODED) {
 				if (keyCode == UP) {
 					theCube.faceTurn = 101;
@@ -295,7 +314,11 @@ public class Mubix extends PApplet {
 				if (keyCode == RIGHT) {
 					theCube.faceTurn = 104;
 				}
-			}
+			}		
 		}
+	}
+	
+	public void setMoveReminder(int faceTurn){
+		moveList.add(faceTurn);
 	}
 }
