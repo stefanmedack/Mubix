@@ -293,6 +293,8 @@ public class Mubix extends PApplet {
 			}
 			if ((key == 'n') || (key == 'N')) {
 				theCube.mixCube = true;
+			}else{
+				theCube.mixCube = false;
 			}
 			if ((key == 'ö') || (key == 'Ö')) {
 				if(!moveList.isEmpty()){

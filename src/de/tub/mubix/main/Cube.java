@@ -22,6 +22,7 @@ public class Cube {
 	int rand1 = 0;
 	int rand2 = 0;
 	int rand3 = 0;
+	int rand4 = 0;
 
 	PVector[][][] squareMatrix;
 	public int[][] colorTable = { { 255, 0, 0 }, { 255, 127, 0 },
@@ -272,23 +273,57 @@ public class Cube {
 			rand1 = myRandom(1, 4);
 			rand2 = myRandom(1, 4);
 			rand3 = myRandom(1, 4);
+			rand4 = myRandom(0, 2);
 		}
 		
-		if(numOfSiteRotation == 0 && clock < (90 / DEG)){
-			X_AxisRotation();
+		if(numOfSiteRotation == 0 && clock < (90 / DEG) && mixCube == true){
+			X_AxisRotationLeftTwist();
+			clock++;
 		}
 		
-		if(numOfSiteRotation == 1 && clock < (90 / DEG)){
-			Y_AxisRotation();
+		if(numOfSiteRotation == 1 && clock < (90 / DEG) && mixCube == true){
+			X_AxisRotationTopTwist();
+			clock++;
 		}
 		
-		if(numOfSiteRotation == 2 && clock < (90 / DEG)){
-			Z_AxisRotation();
+		if(numOfSiteRotation == 2 && clock < (90 / DEG) && mixCube == true){
+			X_AxisRotationRightTwist();
+			clock++;
+		}
+		
+		if(numOfSiteRotation == 3 && clock < (90 / DEG) && mixCube == true){
+			Y_AxisRotationLeftTwist();
+			clock++;
+		}
+		
+		if(numOfSiteRotation == 4 && clock < (90 / DEG) && mixCube == true){
+			Y_AxisRotationTopTwist();
+			clock++;
+		}
+		
+		if(numOfSiteRotation == 5 && clock < (90 / DEG) && mixCube == true){
+			Y_AxisRotationRightTwist();
+			clock++;
+		}
+		
+		if(numOfSiteRotation == 6 && clock < (90 / DEG) && mixCube == true){
+			Z_AxisRotationLeftTwist();
+			clock++;
+		}
+		
+		if(numOfSiteRotation == 7 && clock < (90 / DEG) && mixCube == true){
+			Z_AxisRotationTopTwist();
+			clock++;
+		}
+		
+		if(numOfSiteRotation == 8 && clock < (90 / DEG) && mixCube == true){
+			Z_AxisRotationRightTwist();
+			clock++;
 		}
 				
 		if(clock == (90 / DEG)){
 			updateTwistSettings();
-			if(numOfSiteRotation == 3){
+			if(numOfSiteRotation == 9){
 				resetTwistSettings();
 			}
 		}
@@ -297,60 +332,96 @@ public class Cube {
 	private void updateTwistSettings(){
 		numOfSiteRotation++;
 		reverseRotation = false;
+		mixCube = false;
 		rand1 = 0;
 		rand2 = 0;
 		rand3 = 0;
 	}
 	
 	private void resetTwistSettings(){
-		mixCube = false;
 		numOfSiteRotation = 0;
 	}
 	
-	public void X_AxisRotation(){
-		if (clock < (90 / DEG)) {
-			if (mixCube == true){			
-				leftTwist(rand1);
-					
-				leftTwist(-rand2);
-				rightTwist(-rand2);
-				rotateCube(1, rand2);
-					
-				rightTwist(rand3);
-				
-				clock++;
-			}
+	public void X_AxisRotationLeftTwist(){
+		if(rand4 == 0){
+			leftTwist(rand1);
+		}else{
+			leftTwist(-rand1);
 		}
 	}
 	
-	public void Y_AxisRotation(){
-		if (clock < (90 / DEG)) {
-			if (mixCube == true){
-				upTwist(-rand1);
-					
-				upTwist(rand2);
-				bottomTwist(rand2);
-				rotateCube(2, -rand2);
-				
-				bottomTwist(-rand3);
-				
-				clock++;
-			}
+	public void X_AxisRotationTopTwist(){
+		if(rand4 == 0){
+			leftTwist(-rand2);
+			rightTwist(-rand2);
+			rotateCube(1, rand2);
+		}else{
+			leftTwist(rand2);
+			rightTwist(rand2);
+			rotateCube(1, -rand2);
 		}
 	}
 	
-	public void Z_AxisRotation(){
-		if (clock < (90 / DEG)) {
-			if (mixCube == true){
-				backTwist(-rand1);
-					
-				backTwist(-rand2);
-				frontTwist(-rand2);
-				
-				frontTwist(rand3);
-				
-				clock++;
-			}
+	public void X_AxisRotationRightTwist(){
+		if(rand4 == 0){
+			rightTwist(rand3);
+		}else{
+			rightTwist(-rand3);
+		}
+	}
+	
+	public void Y_AxisRotationLeftTwist(){
+		if(rand4 == 0){
+			upTwist(-rand1);
+		}else{
+			upTwist(rand1);
+		}
+	}
+	
+	public void Y_AxisRotationTopTwist(){
+		if(rand4 == 0){
+			upTwist(rand2);
+			bottomTwist(rand2);
+			rotateCube(2, -rand2);
+		}else{
+			upTwist(-rand2);
+			bottomTwist(-rand2);
+			rotateCube(2, rand2);
+		}
+
+	}
+	
+	public void Y_AxisRotationRightTwist(){
+		if(rand4 == 0){
+			bottomTwist(-rand3);
+		}else{
+			bottomTwist(rand3);
+		}
+	}
+	
+	public void Z_AxisRotationLeftTwist(){
+		if(rand4 == 0){
+			backTwist(-rand1);
+		}else{
+			backTwist(rand1);
+		}
+	}
+	
+	public void Z_AxisRotationTopTwist(){
+		if(rand4 == 0){
+			backTwist(-rand2);
+			frontTwist(-rand2);
+		}else{
+			backTwist(rand2);
+			frontTwist(rand2);
+		}
+	}
+	
+	public void Z_AxisRotationRightTwist(){
+		if(rand4 == 0){
+			frontTwist(rand3);
+		}else{
+			frontTwist(-rand3);
 		}
 	}
 
