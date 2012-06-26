@@ -1,5 +1,7 @@
 package de.tub.mubix.main;
 
+import java.util.ArrayList;
+
 import processing.core.PApplet;
 import processing.core.PVector;
 
@@ -18,6 +20,7 @@ public class Cube {
 	public boolean mixCube = false;
 	public boolean reverseRotation = false;
 	
+	ArrayList<Integer> listNumOfSiteRotation;
 	int numOfSiteRotation = 0;
 	int rand1 = 0;
 	int rand2 = 0;
@@ -111,6 +114,9 @@ public class Cube {
 				squareMatrix[5][i * 3 + j][3] = new PVector(-1.5f * LENGTH,
 						(i - 1.5f + 1) * LENGTH, (j - 1.5f) * LENGTH);
 			}
+		
+
+		listNumOfSiteRotation = new ArrayList<Integer>();
 	}
 
 	@SuppressWarnings("static-access")
@@ -330,7 +336,12 @@ public class Cube {
 	}
 	
 	private void updateTwistSettings(){
-		numOfSiteRotation++;
+		do{
+			if(listNumOfSiteRotation.contains(numOfSiteRotation)){
+				listNumOfSiteRotation.add(numOfSiteRotation);
+			}
+			numOfSiteRotation = myRandom(0, 9);
+		}while(listNumOfSiteRotation.contains(numOfSiteRotation) || listNumOfSiteRotation.size() == 9);
 		reverseRotation = false;
 		mixCube = false;
 		rand1 = 0;
@@ -339,6 +350,7 @@ public class Cube {
 	}
 	
 	private void resetTwistSettings(){
+		listNumOfSiteRotation.clear();
 		numOfSiteRotation = 0;
 	}
 	
@@ -437,7 +449,11 @@ public class Cube {
 				clock++;
 				break;
 			case 12:
-				leftTwist(backTwist);
+				if(reverseRotation == false){
+					leftTwist(backTwist);
+				}else{
+					leftTwist(frontTwist);
+				}
 				clock++;
 				break;
 			case 21:
@@ -453,9 +469,15 @@ public class Cube {
 				clock++;
 				break;
 			case 22:
-				leftTwist(frontTwist);
-				rightTwist(frontTwist);
-				rotateCube(1, backTwist);
+				if(reverseRotation == false){
+					leftTwist(frontTwist);
+					rightTwist(frontTwist);
+					rotateCube(1, backTwist);
+				}else{
+					leftTwist(backTwist);
+					rightTwist(backTwist);
+					rotateCube(1, frontTwist);
+				}
 				clock++;
 				break;
 			case 31:
@@ -467,7 +489,11 @@ public class Cube {
 				clock++;
 				break;
 			case 32:
-				rightTwist(backTwist);
+				if(reverseRotation == false){
+					rightTwist(backTwist);
+				}else{
+					rightTwist(frontTwist);
+				}
 				clock++;
 				break;
 			case 41:
@@ -479,7 +505,11 @@ public class Cube {
 				clock++;
 				break;
 			case 42:
-				upTwist(frontTwist);
+				if(reverseRotation == false){
+					upTwist(frontTwist);
+				}else{
+					upTwist(backTwist);
+				}
 				clock++;
 				break;
 			case 51:
@@ -495,9 +525,15 @@ public class Cube {
 				clock++;
 				break;
 			case 52:
-				upTwist(backTwist);
-				bottomTwist(backTwist);
-				rotateCube(2, frontTwist);
+				if(reverseRotation == false){
+					upTwist(backTwist);
+					bottomTwist(backTwist);
+					rotateCube(2, frontTwist);
+				}else{
+					upTwist(frontTwist);
+					bottomTwist(frontTwist);
+					rotateCube(2, backTwist);
+				}
 				clock++;
 				break;
 			case 61:
@@ -509,7 +545,11 @@ public class Cube {
 				clock++;
 				break;
 			case 62:
-				bottomTwist(frontTwist);
+				if(reverseRotation == false){
+					bottomTwist(frontTwist);
+				}else{
+					bottomTwist(backTwist);
+				}
 				clock++;
 				break;
 			case 71:
@@ -521,7 +561,11 @@ public class Cube {
 				clock++;
 				break;
 			case 72:
-				backTwist(backTwist);
+				if(reverseRotation == false){
+					backTwist(backTwist);
+				}else{
+					backTwist(frontTwist);
+				}
 				clock++;
 				break;
 			case 81:
@@ -535,8 +579,13 @@ public class Cube {
 				clock++;
 				break;
 			case 82:
-				backTwist(frontTwist);
-				frontTwist(frontTwist);
+				if(reverseRotation == false){
+					backTwist(frontTwist);
+					frontTwist(frontTwist);
+				}else{
+					backTwist(backTwist);
+					frontTwist(backTwist);
+				}
 				clock++;
 				break;
 			case 91:
@@ -548,7 +597,11 @@ public class Cube {
 				clock++;
 				break;
 			case 92:
-				frontTwist(backTwist);
+				if(reverseRotation == false){
+					frontTwist(backTwist);
+				}else{
+					frontTwist(frontTwist);
+				}
 				clock++;
 				break;
 			case 101:

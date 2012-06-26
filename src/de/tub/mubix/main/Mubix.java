@@ -266,30 +266,39 @@ public class Mubix extends PApplet {
 			}
 			if ((key == 'q') || (key == 'Q')) {
 				theCube.faceTurn = 12;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'w') || (key == 'W')) {
 				theCube.faceTurn = 22;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'e') || (key == 'E')) {
 				theCube.faceTurn = 32;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'r') || (key == 'R')) {
 				theCube.faceTurn = 42;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 't') || (key == 'T')) {
 				theCube.faceTurn = 52;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'z') || (key == 'Z')) {
 				theCube.faceTurn = 62;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'u') || (key == 'U')) {
 				theCube.faceTurn = 72;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'i') || (key == 'I')) {
 				theCube.faceTurn = 82;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'o') || (key == 'O')) {
 				theCube.faceTurn = 92;
+				setMoveReminder(theCube.faceTurn);
 			}
 			if ((key == 'n') || (key == 'N')) {
 				theCube.mixCube = true;
