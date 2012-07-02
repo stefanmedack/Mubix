@@ -49,111 +49,115 @@ public class SpeechControl implements Runnable {
 		}
 
 		if (s != "" && this.cube.clock == 0) {
+			if(s.contains("undo")){
+				this.cube.undoLastMove();
+			}
+			
 			if (trackpad.getFocusX() == 0 && trackpad.getFocusY() == 0) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 11;
+					this.cube.setFaceTurn(11);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 12;
+					this.cube.setFaceTurn(12);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 41;
+					this.cube.setFaceTurn(41);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 42;
+					this.cube.setFaceTurn(42);
 				}
 			}
 
 			if (trackpad.getFocusX() == 0 && trackpad.getFocusY() == 1) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 11;
+					this.cube.setFaceTurn(11);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 12;
+					this.cube.setFaceTurn(12);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 51;
+					this.cube.setFaceTurn(51);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 52;
+					this.cube.setFaceTurn(52);
 				}
 			}
 
 			if (trackpad.getFocusX() == 0 && trackpad.getFocusY() == 2) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 11;
+					this.cube.setFaceTurn(11);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 12;
+					this.cube.setFaceTurn(12);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 61;
+					this.cube.setFaceTurn(61);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 62;
+					this.cube.setFaceTurn(62);
 				}
 			}
 
 			if (trackpad.getFocusX() == 1 && trackpad.getFocusY() == 0) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 21;
+					this.cube.setFaceTurn(21);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 22;
+					this.cube.setFaceTurn(22);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 41;
+					this.cube.setFaceTurn(41);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 42;
+					this.cube.setFaceTurn(42);
 				}
 			}
 
 			if (trackpad.getFocusX() == 1 && trackpad.getFocusY() == 1) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 101;
+					this.cube.setFaceTurn(101);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 102;
+					this.cube.setFaceTurn(102);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 104;
+					this.cube.setFaceTurn(104);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 103;
+					this.cube.setFaceTurn(103);
 				}
 			}
 
 			if (trackpad.getFocusX() == 1 && trackpad.getFocusY() == 2) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 21;
+					this.cube.setFaceTurn(21);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 22;
+					this.cube.setFaceTurn(22);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 61;
+					this.cube.setFaceTurn(61);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 62;
+					this.cube.setFaceTurn(62);
 				}
 			}
 
 			if (trackpad.getFocusX() == 2 && trackpad.getFocusY() == 0) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 31;
+					this.cube.setFaceTurn(31);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 32;
+					this.cube.setFaceTurn(32);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 41;
+					this.cube.setFaceTurn(41);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 42;
+					this.cube.setFaceTurn(42);
 				}
 			}
 
 			if (trackpad.getFocusX() == 2 && trackpad.getFocusY() == 1) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 31;
+					this.cube.setFaceTurn(31);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 32;
+					this.cube.setFaceTurn(32);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 51;
+					this.cube.setFaceTurn(51);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 52;
+					this.cube.setFaceTurn(52);
 				}
 			}
 
 			if (trackpad.getFocusX() == 2 && trackpad.getFocusY() == 2) {
 				if (s.contains("up")) {
-					this.cube.faceTurn = 31;
+					this.cube.setFaceTurn(31);
 				} else if (s.contains("down")) {
-					this.cube.faceTurn = 32;
+					this.cube.setFaceTurn(32);
 				} else if (s.contains("right")) {
-					this.cube.faceTurn = 61;
+					this.cube.setFaceTurn(61);
 				} else if (s.contains("left")) {
-					this.cube.faceTurn = 62;
+					this.cube.setFaceTurn(62);
 				}
 			}
 

@@ -1,6 +1,7 @@
 package de.tub.mubix.main;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -17,8 +18,18 @@ public class Cube {
 	public int clock = 0;
 	public int faceTurn = 0;
 	
+	public int getFaceTurn() {
+		return faceTurn;
+	}
+
+	public void setFaceTurn(int faceTurn) {
+		this.faceTurn = faceTurn;
+		this.pushMove(faceTurn);
+	}
+
 	public boolean mixCube = false;
 	public boolean reverseRotation = false;
+	private LinkedList<Integer> moveList = null;
 	
 	ArrayList<Integer> listNumOfSiteRotation;
 	int numOfSiteRotation = 0;
@@ -41,6 +52,7 @@ public class Cube {
 	public Cube(PApplet parent) {// The points for each square on the face
 		this.parent = parent;
 
+		moveList = new LinkedList<Integer>();
 		squareMatrix = new PVector[6][9][4];
 		for (int i = 0; i < 3; i++)
 			for (int j = 0; j < 3; j++) {
@@ -625,5 +637,17 @@ public class Cube {
 			clock = 0;
 			faceTurn = 0;
 		}
+	}
+
+	public void undoLastMove() {
+		if (!moveList.isEmpty()) {
+			reverseRotation = true;
+			faceTurn = moveList.getLast();
+			moveList.removeLast();
+		}		
+	}
+
+	public void pushMove(int faceTurn) {
+		moveList.add(faceTurn);
 	}
 }

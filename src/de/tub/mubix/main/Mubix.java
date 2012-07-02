@@ -1,7 +1,5 @@
 package de.tub.mubix.main;
 
-import java.util.LinkedList;
-
 import peasy.PeasyCam;
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -25,8 +23,6 @@ public class Mubix extends PApplet {
 	final boolean enableSpeech = false;
 	final boolean enableMultimodal = true;
 	boolean showDepth = false;
-
-	private LinkedList<Integer> moveList = null;
 
 	// int clock = 0;
 	// int ith = 0;
@@ -65,8 +61,6 @@ public class Mubix extends PApplet {
 		cam.setMaximumDistance(600);
 		cam.setActive(false); // deactivate mouse rotation
 		theCube = new Cube(this);
-
-		moveList = new LinkedList<Integer>();
 
 		// bkg_img = loadImage("cube_black_1024_640.jpg");
 		// bkg_img.filter(OPAQUE);
@@ -393,11 +387,7 @@ public class Mubix extends PApplet {
 				theCube.mixCube = false;
 			}
 			if ((key == 'ö') || (key == 'Ö') || (key == ',')) {
-				if (!moveList.isEmpty()) {
-					theCube.reverseRotation = true;
-					theCube.faceTurn = moveList.getLast();
-					moveList.removeLast();
-				}
+				theCube.undoLastMove();
 			}
 			if ((key == 'd') || (key == 'D')) {
 				this.showDepth = !this.showDepth;
@@ -421,7 +411,7 @@ public class Mubix extends PApplet {
 	}
 
 	public void setMoveReminder(int faceTurn) {
-		moveList.add(faceTurn);
+		theCube.pushMove(faceTurn);
 	}
 
 	// mm mehtods
