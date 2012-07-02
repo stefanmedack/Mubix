@@ -6,4 +6,4 @@
 
 grammar hello;
 
-public <greet> = (cube | left | right | top | bottom) ( up | down | left | right );
+public <greet> = ( up | down | left | right );

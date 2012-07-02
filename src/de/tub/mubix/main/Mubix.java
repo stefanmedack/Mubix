@@ -2,12 +2,16 @@ package de.tub.mubix.main;
 
 import java.util.LinkedList;
 
-import de.tub.mubix.speechControl.SpeechControl;
 import peasy.PeasyCam;
 import processing.core.PApplet;
+import processing.core.PVector;
 import SimpleOpenNI.SimpleOpenNI;
+import SimpleOpenNI.XnPoint3D;
+import SimpleOpenNI.XnVHandPointContext;
+import SimpleOpenNI.XnVSelectableSlider2D;
 import SimpleOpenNI.XnVSessionManager;
 import SimpleOpenNI.XnVSwipeDetector;
+import de.tub.mubix.speechControl.SpeechControl;
 
 @SuppressWarnings("serial")
 public class Mubix extends PApplet {
@@ -15,8 +19,13 @@ public class Mubix extends PApplet {
 
 	final int WINDOWX = 1024;
 	final int WINDOWY = 640;
+
+	// modes
 	final boolean enableOpenNI = false;
-	
+	final boolean enableSpeech = false;
+	final boolean enableMultimodal = true;
+	boolean showDepth = false;
+
 	private LinkedList<Integer> moveList = null;
 
 	// int clock = 0;
@@ -29,15 +38,38 @@ public class Mubix extends PApplet {
 	// PImage bkg_img;
 
 	public SimpleOpenNI context;
-	public XnVSessionManager sessionManager;
 	public XnVSwipeDetector swipeDetector;
 
 	Cube theCube;
+
+	XnVSessionManager sessionManager;
+	XnVSelectableSlider2D trackPad;
+	Thread speechThread;
+
+	int gridX = 3;
+	int gridY = 3;
+
+	Trackpad trackPadViz;
 
 	@Override
 	public void setup() {
 
 		size(WINDOWX, WINDOWY, P3D);
+
+		/************************************************************
+		 ********************* Cube Stuff
+		 ************************************************************/
+
+		cam = new PeasyCam(this, WINDOWX / 2, WINDOWY / 2, 0, 350);
+		cam.setMinimumDistance(50);
+		cam.setMaximumDistance(600);
+		cam.setActive(false); // deactivate mouse rotation
+		theCube = new Cube(this);
+
+		moveList = new LinkedList<Integer>();
+
+		// bkg_img = loadImage("cube_black_1024_640.jpg");
+		// bkg_img.filter(OPAQUE);
 
 		/************************************************************
 		 ********************* OpenNI Stuff
@@ -47,7 +79,7 @@ public class Mubix extends PApplet {
 			/*
 			 * Simple NI
 			 */
-			context = new SimpleOpenNI(this, SimpleOpenNI.RUN_MODE_MULTI_THREADED);
+			context = new SimpleOpenNI(this);
 			context.enableDepth();
 			context.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL);
 			context.setMirror(true);
@@ -70,28 +102,68 @@ public class Mubix extends PApplet {
 		// size(context.depthWidth(), context.depthHeight());
 
 		/************************************************************
-		 ********************* Cube Stuff
-		 ************************************************************/
-
-		cam = new PeasyCam(this, WINDOWX / 2, WINDOWY / 2, 0, 350);
-		cam.setMinimumDistance(50);
-		cam.setMaximumDistance(600);
-		cam.setActive(false); // deactivate mouse rotation
-		theCube = new Cube(this);
-		
-		moveList = new LinkedList<Integer>();
-
-		// bkg_img = loadImage("cube_black_1024_640.jpg");
-		// bkg_img.filter(OPAQUE);
-		
-		/************************************************************
 		 ********************* Speech Control Stuff
 		 ************************************************************/
-		
-		SpeechControl speechCtrl = new SpeechControl();
-		speechCtrl.setCube(this.theCube);
-		Thread thread = new Thread(speechCtrl);
-		thread.start();
+
+		if (enableSpeech) {
+			SpeechControl speechCtrl = new SpeechControl();
+			speechCtrl.setCube(this.theCube);
+			Thread thread = new Thread(speechCtrl);
+			thread.start();
+		}
+
+		/************************************************************
+		 ********************* Multimodal
+		 ************************************************************/
+
+		if (enableMultimodal) {
+			// Camera input
+			context = new SimpleOpenNI(this,
+					SimpleOpenNI.RUN_MODE_MULTI_THREADED);
+			context.enableDepth();
+			context.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL);
+			context.setMirror(true);
+
+			// enable the hands + gesture
+			context.enableGesture();
+			context.enableHands();
+
+			// setup NITE
+			sessionManager = context.createSessionManager("Click,Wave",
+					"RaiseHand");
+
+			trackPad = new XnVSelectableSlider2D(gridX, gridY);
+			sessionManager.AddListener(trackPad);
+
+			trackPad.RegisterItemHover(this);
+			trackPad.RegisterValueChange(this);
+			trackPad.RegisterItemSelect(this);
+
+			trackPad.RegisterPrimaryPointCreate(this);
+			trackPad.RegisterPrimaryPointDestroy(this);
+
+			// create gui viz
+			trackPadViz = new Trackpad(this, new PVector(
+					context.depthWidth() / 2, context.depthHeight() / 2, 0),
+					gridX, gridY, 30, 30, 5);
+
+			// size(context.depthWidth(), context.depthHeight());
+			smooth();
+
+			// info text
+			println("-------------------------------");
+			println("1. Wave till the tiles get green");
+			println("2. The relative hand movement will select the tiles");
+			println("-------------------------------");
+
+			// Speech input
+			SpeechControl speechCtrl = new SpeechControl();
+			speechCtrl.setCube(this.theCube);
+			speechCtrl.setTrackpad(this.trackPadViz);
+			speechThread = new Thread(speechCtrl);
+			speechThread.start();
+		}
+
 	}
 
 	@Override
@@ -109,16 +181,31 @@ public class Mubix extends PApplet {
 			if (context.isTrackingSkeleton(1))
 				drawSkeleton(1);
 		}
+
+		if (enableMultimodal) {
+			// update the cam
+			context.update();
+
+			// update nite
+			context.update(sessionManager);
+
+			if (showDepth) {
+				// draw depthImageMap
+				image(context.depthImage(), 0, 0, width / 2, height / 2);
+			}
+			trackPadViz.draw();
+		}
+
 		stroke(0, 0, 0);
 		translate(WINDOWX / 2, WINDOWY / 2);
 		rotateX(-0.4f);
 		rotateY(0.4f);
 		theCube.display();
-		
+
 		theCube.mixingCube();
-		
+
 		theCube.singleTwist();
-		
+
 		// image(bkg_img,-width/2, -height/2);
 		// println(frameRate);
 	}
@@ -224,7 +311,7 @@ public class Mubix extends PApplet {
 	// -----------------------------------------------------------------
 	// Cube Stuff
 	// -----------------------------------------------------------------
-	
+
 	@Override
 	public void keyPressed() {
 		if (theCube.clock == 0) {
@@ -300,18 +387,22 @@ public class Mubix extends PApplet {
 				theCube.faceTurn = 92;
 				setMoveReminder(theCube.faceTurn);
 			}
-			if ((key == 'n') || (key == 'N')) {
+			if ((key == 'n') || (key == 'N') || (key == '.')) {
 				theCube.mixCube = true;
-			}else{
+			} else {
 				theCube.mixCube = false;
 			}
-			if ((key == 'ö') || (key == 'Ö')) {
-				if(!moveList.isEmpty()){
+			if ((key == 'ö') || (key == 'Ö') || (key == ',')) {
+				if (!moveList.isEmpty()) {
 					theCube.reverseRotation = true;
 					theCube.faceTurn = moveList.getLast();
 					moveList.removeLast();
 				}
 			}
+			if ((key == 'd') || (key == 'D')) {
+				this.showDepth = !this.showDepth;
+			}
+
 			if (key == CODED) {
 				if (keyCode == UP) {
 					theCube.faceTurn = 101;
@@ -325,11 +416,42 @@ public class Mubix extends PApplet {
 				if (keyCode == RIGHT) {
 					theCube.faceTurn = 104;
 				}
-			}		
+			}
 		}
 	}
-	
-	public void setMoveReminder(int faceTurn){
+
+	public void setMoveReminder(int faceTurn) {
 		moveList.add(faceTurn);
 	}
+
+	// mm mehtods
+
+	void onItemHover(int nXIndex, int nYIndex) {
+		println("onItemHover: nXIndex=" + nXIndex + " nYIndex=" + nYIndex);
+
+		trackPadViz.update(nXIndex, nYIndex);
+	}
+
+	void onValueChange(float fXValue, float fYValue) {
+		// println("onValueChange: fXValue=" + fXValue +" fYValue=" + fYValue);
+	}
+
+	void onItemSelect(int nXIndex, int nYIndex, int eDir) {
+		// println("onItemSelect: nXIndex=" + nXIndex + " nYIndex=" + nYIndex +
+		// " eDir=" + eDir);
+		// trackPadViz.push(nXIndex,nYIndex,eDir);
+	}
+
+	void onPrimaryPointCreate(XnVHandPointContext pContext, XnPoint3D ptFocus) {
+		println("onPrimaryPointCreate");
+
+		trackPadViz.enable();
+	}
+
+	void onPrimaryPointDestroy(int nID) {
+		println("onPrimaryPointDestroy");
+
+		trackPadViz.disable();
+	}
+
 }
